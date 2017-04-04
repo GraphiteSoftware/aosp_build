@@ -78,12 +78,20 @@ ifneq ($(filter $(TARGET_GAPPS_VARIANT),stock),) # require at least stock
 
 GAPPS_FORCE_MMS_OVERRIDES := true
 GAPPS_FORCE_WEBVIEW_OVERRIDES := true
+ifeq ($(filter suzu,$(GRAPHITE_DEVICE_NAME)),)
 GAPPS_PRODUCT_PACKAGES += \
     GoogleCamera \
     GoogleContacts \
     LatinImeGoogle \
     TagGoogle \
     GoogleVrCore
+else
+GAPPS_PRODUCT_PACKAGES += \
+    GoogleContacts \
+    LatinImeGoogle \
+    TagGoogle \
+    GoogleVrCore
+endif
 
 ifneq ($(filter $(call get-allowed-api-levels),23),)
 GAPPS_FORCE_DIALER_OVERRIDES := true
