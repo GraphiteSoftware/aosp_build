@@ -1,6 +1,6 @@
 gapps_framework_files := $(call gapps-copy-to-system,all,framework)
 
-ifneq ($(filter gsi_%,$(TARGET_PRODUCT)),)
+ifneq ($(filter gsi_% aosp_bullhead,$(TARGET_PRODUCT)),)
   gapps_framework_files := $(filter-out %com.google.android.camera.experimental2017.jar,$(gapps_framework_files))
 endif
 
@@ -31,7 +31,7 @@ GAPPS_PIXEL_CODENAMES += \
 
 gapps_etc_files := $(call gapps-copy-to-system,all,etc)
 
-ifneq ($(filter gsi_%,$(TARGET_PRODUCT)),)
+ifneq ($(filter gsi_% aosp_bullhead,$(TARGET_PRODUCT)),)
   gapps_etc_files := $(filter-out %com.google.android.camera.experimental2017.xml,$(gapps_etc_files))
 endif
 
