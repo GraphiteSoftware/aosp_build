@@ -40,10 +40,23 @@ else
     ifdef TARGET_2ND_ARCH
       LOCAL_SRC_FILES := $(call find-apk-for-pkg,$(TARGET_2ND_ARCH),$(LOCAL_PACKAGE_NAME))
       ifdef LOCAL_SRC_FILES
+        LOCAL_MODULE_TARGET_ARCH := $(TARGET_2ND_ARCH)
         LOCAL_PREBUILT_JNI_LIBS_$(TARGET_2ND_ARCH) := $(call find-libs-in-apk,$(TARGET_2ND_ARCH),$(LOCAL_SRC_FILES))
       endif
     endif
   endif
+endif
+
+ifndef LOCAL_SRC_FILES
+# the three calls to find-apk-for-pkg above all failed.
+# emit an error if the module is in the set GAPPS_PRODUCT_PACKAGES - GAPPS_EXCLUDED_PACKAGES
+ifneq (,$(filter $(LOCAL_MODULE),$(GAPPS_PRODUCT_PACKAGES)))
+ifeq  (,$(filter $(LOCAL_MODULE),$(GAPPS_EXCLUDED_PACKAGES)))
+  $(warning Unable to find an architecture compatible APK for package $(LOCAL_PACKAGE_NAME) defined in module $(LOCAL_MODULE).)
+  $(warning You can try using GAPPS_EXCLUDED_PACKAGES += $(LOCAL_MODULE) to get past this error.)
+  $(error Invalid build module: $(LOCAL_MODULE))
+endif
+endif
 endif
 
 include $(BUILD_PREBUILT)
