@@ -1,10 +1,5 @@
-gapps_framework_files := $(call gapps-copy-to-system,all,framework)
-
-ifneq ($(filter gsi_%,$(TARGET_PRODUCT)),)
-  gapps_framework_files := $(filter-out %com.google.android.camera.experimental2017.jar,$(gapps_framework_files))
-endif
-
-PRODUCT_COPY_FILES += $(gapps_framework_files)
+# Always needed
+PRODUCT_COPY_FILES += $(call gapps-copy-to-system,all,framework)
 
 GAPPS_NEXUS_CODENAMES += \
     full_maguro \
@@ -30,10 +25,6 @@ GAPPS_PIXEL_CODENAMES += \
     aosp_wahoo
 
 gapps_etc_files := $(call gapps-copy-to-system,all,etc)
-
-ifneq ($(filter gsi_%,$(TARGET_PRODUCT)),)
-  gapps_etc_files := $(filter-out %com.google.android.camera.experimental2017.xml,$(gapps_etc_files))
-endif
 
 # Remove google_build.xml on non-Pixel devices
 ifeq ($(filter $(GAPPS_PIXEL_CODENAMES),$(TARGET_PRODUCT)),)
