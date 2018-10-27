@@ -41,7 +41,13 @@ endif
 
 ifneq ($(filter 26,$(call get-allowed-api-levels)),)
 GAPPS_PRODUCT_PACKAGES += \
-    AndroidPlatformServices
+    AndroidPlatformServices \
+    GmsCoreSetupPrebuilt
+endif
+
+ifneq ($(filter 28,$(call get-allowed-api-levels)),)
+GAPPS_PRODUCT_PACKAGES += \
+    MarkupGoogle
 endif
 
 ifneq ($(filter nano,$(TARGET_GAPPS_VARIANT)),) # require at least nano
@@ -110,12 +116,17 @@ GAPPS_PRODUCT_PACKAGES += \
     GoogleExtServices \
     GoogleExtShared
 endif
+ifneq ($(filter 28,$(call get-allowed-api-levels)),)
+GAPPS_PRODUCT_PACKAGES += \
+    DigitalWellbeing
+endif
 
 ifneq ($(filter super,$(TARGET_GAPPS_VARIANT)),)
 
 GAPPS_PRODUCT_PACKAGES += \
     Wallet \
     DMAgent \
+    CarrierServices \
     GoogleEarth \
     GCS \
     GoogleHindiIME \
@@ -188,6 +199,11 @@ DEVICE_PACKAGE_OVERLAYS += \
 else ifneq ($(filter 25,$(call get-allowed-api-levels)),)
 DEVICE_PACKAGE_OVERLAYS += \
     $(GAPPS_DEVICE_FILES_PATH)/overlay/pixelicons/25
+endif
+
+ifneq ($(filter 28,$(call get-allowed-api-levels)),)
+DEVICE_PACKAGE_OVERLAYS += \
+    $(GAPPS_DEVICE_FILES_PATH)/overlay/pixellauncher/28
 endif
 
 ifneq ($(filter 25,$(call get-allowed-api-levels)),)
