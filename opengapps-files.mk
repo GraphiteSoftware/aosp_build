@@ -21,10 +21,6 @@ GAPPS_PIXEL2016_CODENAMES += \
     %marlin \
     %sailfish
 
-# graphite hack
-GAPPS_PIXEL2016_CODENAMES += \
-    gsi_%
-
 GAPPS_PIXEL2017_CODENAMES += \
     %muskie \
     %taimen \
