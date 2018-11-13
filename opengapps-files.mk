@@ -1,6 +1,5 @@
 GAPPS_NEXUS2015_CODENAMES += \
-    %angler \
-    %bullhead
+    %angler
 
 GAPPS_NEXUS_CODENAMES += \
     %maguro \
@@ -15,6 +14,7 @@ GAPPS_NEXUS_CODENAMES += \
     %hammerhead \
     %flounder \
     %shamu \
+    %bullhead \
     $(GAPPS_NEXUS2015_CODENAMES)
 
 GAPPS_PIXEL2016_CODENAMES += \
@@ -45,8 +45,8 @@ ifeq ($(filter $(GAPPS_NEXUS2015_CODENAMES),$(TARGET_PRODUCT)),)
   gapps_framework_files := $(filter-out %com.google.android.camera.experimental2015.jar,$(gapps_framework_files))
 endif
 
-# Remove experimental2016 camera on non-Pixel 2016 devices
-ifeq ($(filter $(GAPPS_PIXEL2016_CODENAMES),$(TARGET_PRODUCT)),)
+# Remove experimental2016 camera on non-Pixel 2016 devices (but leave it on bullhead)
+ifeq ($(filter %bullhead $(GAPPS_PIXEL2016_CODENAMES),$(TARGET_PRODUCT)),)
   gapps_etc_files := $(filter-out %permissions/com.google.android.camera.experimental2016.xml,$(gapps_etc_files))
   gapps_framework_files := $(filter-out %com.google.android.camera.experimental2016.jar,$(gapps_framework_files))
 endif
@@ -63,9 +63,13 @@ ifeq ($(filter $(GAPPS_PIXEL2018_CODENAMES),$(TARGET_PRODUCT)),)
   gapps_framework_files := $(filter-out %com.google.android.camera.experimental2018.jar,$(gapps_framework_files))
 endif
 
-# Remove google_build.xml and nexus.xml on non-Pixel devices
-ifeq ($(filter $(GAPPS_PIXEL_CODENAMES),$(TARGET_PRODUCT)),)
+# Remove google_build.xml on non-Pixel devices (but leave it on bullhead)
+ifeq ($(filter %bullhead $(GAPPS_PIXEL_CODENAMES),$(TARGET_PRODUCT)),)
   gapps_etc_files := $(filter-out %sysconfig/google_build.xml,$(gapps_etc_files))
+endif
+
+# Remove nexus.xml on non-Pixel devices
+ifeq ($(filter $(GAPPS_PIXEL_CODENAMES),$(TARGET_PRODUCT)),)
   gapps_etc_files := $(filter-out %sysconfig/nexus.xml,$(gapps_etc_files))
 endif
 
