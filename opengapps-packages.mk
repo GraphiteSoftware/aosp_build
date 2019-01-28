@@ -53,6 +53,7 @@ endif
 
 ifneq ($(filter nano,$(TARGET_GAPPS_VARIANT)),) # require at least nano
 GAPPS_PRODUCT_PACKAGES += \
+    libjni_latinimegoogle \
     FaceLock \
     Velvet
 
