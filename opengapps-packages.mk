@@ -5,6 +5,11 @@ include vendor/opengapps/build/opengapps-files.mk
 DEVICE_PACKAGE_OVERLAYS += \
     $(GAPPS_DEVICE_FILES_PATH)/overlay/pico
 
+ifneq ($(filter 28,$(call get-allowed-api-levels)),)
+DEVICE_PACKAGE_OVERLAYS += \
+    $(GAPPS_DEVICE_FILES_PATH)/overlay/assistant/28
+endif
+
 GAPPS_PRODUCT_PACKAGES += \
     GoogleBackupTransport \
     GoogleContactsSyncAdapter \
@@ -53,6 +58,7 @@ endif
 
 ifneq ($(filter nano,$(TARGET_GAPPS_VARIANT)),) # require at least nano
 GAPPS_PRODUCT_PACKAGES += \
+    libjni_latinimegoogle \
     FaceLock \
     Velvet
 
@@ -60,8 +66,14 @@ ifneq ($(filter micro,$(TARGET_GAPPS_VARIANT)),) # require at least micro
 GAPPS_PRODUCT_PACKAGES += \
     CalendarGooglePrebuilt \
     PrebuiltExchange3Google \
-    PrebuiltGmail \
-    GoogleHome
+    PrebuiltGmail
+
+ifneq ($(filter 26,$(call get-allowed-api-levels)),)
+GAPPS_FORCE_PIXEL_LAUNCHER := true
+else
+GAPPS_PRODUCT_PACKAGES += \
+    GoogleNow
+endif
 
 ifeq ($(filter 23,$(call get-allowed-api-levels)),)
 GAPPS_PRODUCT_PACKAGES += \
@@ -91,7 +103,6 @@ GAPPS_PRODUCT_PACKAGES += \
     Videos \
     Music2 \
     Newsstand \
-    PrebuiltNewsWeather \
     PlayGames \
     EditorsSheets \
     EditorsSlides \
@@ -105,6 +116,7 @@ GAPPS_PRODUCT_PACKAGES += \
     GoogleCamera \
     GoogleContacts \
     LatinImeGoogle \
+    StorageManagerGoogle \
     TagGoogle \
     GoogleVrCore
 
@@ -138,6 +150,11 @@ GAPPS_PRODUCT_PACKAGES += \
     Street \
     TranslatePrebuilt \
     GoogleZhuyinIME
+
+ifneq ($(filter 28,$(call get-allowed-api-levels)),)
+GAPPS_PRODUCT_PACKAGES += \
+    ActionsServices
+endif
 
 endif # end super
 endif # end stock
