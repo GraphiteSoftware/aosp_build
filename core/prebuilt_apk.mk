@@ -26,7 +26,7 @@ LOCAL_SRC_FILES := $(call find-apk-for-pkg,all,$(LOCAL_PACKAGE_NAME))
 ifdef LOCAL_SRC_FILES
   LOCAL_PREBUILT_JNI_LIBS := $(call find-libs-in-apk,$(TARGET_ARCH),$(LOCAL_SRC_FILES))
 else
-  LOCAL_SRC_FILES := $(call find-apk-for-pkg,$(TARGET_ARCH),$(LOCAL_PACKAGE_NAME))
+  LOCAL_SRC_FILES := $(or $(GAPPS_LOCAL_SRC_FILES_OVERRIDE),$(call find-apk-for-pkg,$(TARGET_ARCH),$(LOCAL_PACKAGE_NAME)))
   ifdef LOCAL_SRC_FILES
     ifeq ($(filter 21,$(call get-allowed-api-levels)),)
       # only kitkat
